@@ -71,7 +71,7 @@ python script.py
 - [x] Memory information from `/proc/meminfo`
 - [x] GPU detection via lspci, NVIDIA drivers, and DRM subsystem
 
-## Screenshots:
+## Screenshots
 <img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/0215b825-f503-4efe-ad11-3dcb4fb75e3d" />
 
 <img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/1d023d73-2d7a-4520-b664-c6c6cbb2f4a4" />
