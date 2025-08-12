@@ -1,4 +1,5 @@
 # System Information Script
+
 A lightweight Python script that gathers and displays comprehensive system information in a tabular format. This cross-platform tool provides essential hardware and software details about your computer without requiring external dependencies.
 
 ## Features
@@ -71,11 +72,23 @@ python script.py
 - [x] Memory information from `/proc/meminfo`
 - [x] GPU detection via lspci, NVIDIA drivers, and DRM subsystem
 
+## Known Issues
+
+### Performance on Windows Systems
+
+The application may experience slower execution times on weaker Windows PCs due to its reliance on PowerShell and Windows Management Instrumentation (WMI) for hardware detection:
+
+- Each PowerShell command requires spawning a new process, which can take several seconds on slower machines
+- **CIM/WMI Query Performance**
+- **Multiple System Calls**: Hardware detection involves multiple subprocess calls with 5-second timeouts each, potentially causing delays
+
+**Linux**
+- Linux systems are generally faster as they use efficient `/proc` and `/sys` filesystem reads instead of WMI
+
 ## Screenshots
+
 <img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/0215b825-f503-4efe-ad11-3dcb4fb75e3d" />
 
 <img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/1d023d73-2d7a-4520-b664-c6c6cbb2f4a4" />
 
 <img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/23ab0ff8-2ae9-4cdd-8f77-a4562dc109ba" />
-
-
