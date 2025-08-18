@@ -5,6 +5,7 @@ import subprocess
 import glob
 import re
 import datetime as _dt
+import sys
 
 def get_logical_cpu_count() -> int:
     count = os.cpu_count()
@@ -531,7 +532,46 @@ def table_lines(
     lines.append(sep("-"))
     return lines
 
+def prompt_export_choice() -> bool:
+    while True:
+        try:
+            choice = input("Do you want to export the system information to a text file? (y/n): ").strip().lower()
+            if choice in ['y', 'yes']:
+                return True
+            elif choice in ['n', 'no']:
+                return False
+            else:
+                print("Please enter 'y' for yes or 'n' for no.")
+        except (EOFError, KeyboardInterrupt):
+            print("\nExiting...")
+            sys.exit(0)
+
+def export_to_file(table_output: list[str]) -> None:
+    try:
+        timestamp = _dt.datetime.now().strftime("%Y%m%d_%H%M")
+        filename = f"pc_info_{timestamp}.txt"
+        
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        filepath = os.path.join(script_dir, filename)
+        
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write("System Information Report\n")
+            f.write("=" * 50 + "\n")
+            f.write(f"Generated on: {_dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write("\n")
+            for line in table_output:
+                f.write(line + "\n")
+        
+        print(f"\nSystem information exported to: {filepath}")
+        
+    except Exception as e:
+        print(f"\nError exporting to file: {e}")
+
 def main() -> None:
+    export_to_file_choice = prompt_export_choice()
+    
+    print("\nGathering system information...")
+    
     os_name = get_os_name()
     install_dt = get_os_install_datetime()
     physical_cores = get_physical_cpu_count()
@@ -552,7 +592,14 @@ def main() -> None:
         ("Total RAM", format_bytes_as_gb(total_ram_bytes)),
         ("Free RAM", format_bytes_as_mb(free_ram_bytes)),
     ]
-    for line in table_lines(rows):
+    
+    table_output = table_lines(rows)
+    
+    print()
+    for line in table_output:
         print(line)
+    
+    if export_to_file_choice:
+        export_to_file(table_output)
 
 main()
