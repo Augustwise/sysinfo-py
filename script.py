@@ -246,9 +246,13 @@ def _get_total_ram_bytes_linux() -> int:
     except FileNotFoundError:
         pass
     try:
-        page_size = os.sysconf("SC_PAGE_SIZE")
-        phys_pages = os.sysconf("SC_PHYS_PAGES")
-        return int(page_size) * int(phys_pages)
+        if hasattr(os, 'sysconf'):
+            sysconf = getattr(os, 'sysconf')
+            page_size = sysconf("SC_PAGE_SIZE")
+            phys_pages = sysconf("SC_PHYS_PAGES")
+            return int(page_size) * int(phys_pages)
+        else:
+            raise AttributeError("sysconf not available on this platform")
     except (ValueError, OSError, AttributeError) as exc:
         raise RuntimeError("Unable to determine total RAM on Linux") from exc
 
@@ -313,9 +317,13 @@ def _get_free_ram_bytes_linux() -> int:
     except FileNotFoundError:
         pass
     try:
-        page_size = os.sysconf("SC_PAGE_SIZE")
-        avail_pages = os.sysconf("SC_AVPHYS_PAGES")
-        return int(page_size) * int(avail_pages)
+        if hasattr(os, 'sysconf'):
+            sysconf = getattr(os, 'sysconf')
+            page_size = sysconf("SC_PAGE_SIZE")
+            avail_pages = sysconf("SC_AVPHYS_PAGES")
+            return int(page_size) * int(avail_pages)
+        else:
+            raise AttributeError("sysconf not available on this platform")
     except (ValueError, OSError, AttributeError) as exc:
         raise RuntimeError("Unable to determine free RAM on Linux") from exc
 
@@ -326,9 +334,13 @@ def get_total_ram_bytes() -> int:
     if system == "Linux":
         return _get_total_ram_bytes_linux()
     try:
-        page_size = os.sysconf("SC_PAGE_SIZE")
-        phys_pages = os.sysconf("SC_PHYS_PAGES")
-        return int(page_size) * int(phys_pages)
+        if hasattr(os, 'sysconf'):
+            sysconf = getattr(os, 'sysconf')
+            page_size = sysconf("SC_PAGE_SIZE")
+            phys_pages = sysconf("SC_PHYS_PAGES")
+            return int(page_size) * int(phys_pages)
+        else:
+            raise AttributeError("sysconf not available on this platform")
     except Exception as exc:
         raise NotImplementedError(f"Unsupported OS: {system}") from exc
 
@@ -339,9 +351,13 @@ def get_free_ram_bytes() -> int:
     if system == "Linux":
         return _get_free_ram_bytes_linux()
     try:
-        page_size = os.sysconf("SC_PAGE_SIZE")
-        avail_pages = os.sysconf("SC_AVPHYS_PAGES")
-        return int(page_size) * int(avail_pages)
+        if hasattr(os, 'sysconf'):
+            sysconf = getattr(os, 'sysconf')
+            page_size = sysconf("SC_PAGE_SIZE")
+            avail_pages = sysconf("SC_AVPHYS_PAGES")
+            return int(page_size) * int(avail_pages)
+        else:
+            raise AttributeError("sysconf not available on this platform")
     except Exception as exc:
         raise NotImplementedError(f"Unsupported OS: {system}") from exc
 
