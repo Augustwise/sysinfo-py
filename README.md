@@ -8,6 +8,7 @@ A lightweight Python script that gathers and displays comprehensive system infor
 - **CPU Details**: Both physical and logical core counts
 - **Memory Information**: Total and available RAM
 - **GPU Detection**: Identifies graphics cards across different vendors
+- **Save system information to a timestamped text file**
 - **Cross-Platform Support**: Works on Windows and Linux
 
 ## Requirements
@@ -38,9 +39,26 @@ Run the script directly:
 python script.py
 ```
 
-### Sample Output
+The script will first ask if you want to export the system information to a text file:
 
 ```
+Do you want to export the system information to a text file? (y/n):
+```
+
+- Enter `y` or `yes` to save the information to a timestamped file (e.g., `pc_info_20250819_0930.txt`)
+- Enter `n` or `no` to only display the information in the terminal
+
+The exported file includes a header with generation timestamp and the complete system information table.
+
+### Sample Output
+
+The script will first prompt for export preference, then display:
+
+```
+Do you want to export the system information to a text file? (y/n): y
+
+Gathering system information...
+
 +------------------+---------------------------------------------+
 | Property         | Value                                       |
 +-================-+-===========================================-+
@@ -52,6 +70,8 @@ python script.py
 | Total RAM        | 15.35 GB                                    |
 | Free RAM         | 8504.98 MB                                  |
 +------------------+---------------------------------------------+
+
+System information exported to: C:\Projects\sysinfo-py\pc_info_20250819_0930.txt
 ```
 
 ## Platform Support
@@ -83,6 +103,7 @@ The application may experience slower execution times on weaker Windows PCs due 
 - **Multiple System Calls**: Hardware detection involves multiple subprocess calls with 5-second timeouts each, potentially causing delays
 
 **Linux**
+
 - Linux systems are generally faster as they use efficient `/proc` and `/sys` filesystem reads instead of WMI
 
 ## Screenshots
