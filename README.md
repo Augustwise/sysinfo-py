@@ -110,8 +110,9 @@ The application may experience slower execution times on weaker Windows PCs due 
 
 ## Screenshots
 
-<img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/195552d2-901d-4dd5-8221-1f04be0e378d" />
+<img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/e6d4ea17-abd7-4d31-9305-eada31ef04db" />
 
-<img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/3b725d9b-aec8-48d2-87bf-7c4a6db221e1" />
+<img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/6510e0d2-becc-413c-8e55-77f250631bb4" />
 
-<img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/23ab0ff8-2ae9-4cdd-8f77-a4562dc109ba" />
+<img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/525724d2-00f5-4aa8-8494-a7eafc7218ad" />
+
