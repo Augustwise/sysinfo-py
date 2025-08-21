@@ -7,6 +7,7 @@ A lightweight Python script that gathers and displays comprehensive system infor
 - **Operating System Information**: OS name, version, build number, and installation date
 - **CPU Details**: Both physical and logical core counts
 - **Memory Information**: Total and available RAM
+- **System Uptime**
 - **GPU Detection**: Identifies graphics cards across different vendors
 - **Save system information to a timestamped text file**
 - **Cross-Platform Support**: Works on Windows and Linux
@@ -64,6 +65,7 @@ Gathering system information...
 +-================-+-===========================================-+
 | Operating system | Windows 11 Professional (build 26100.4652)  |
 | OS install date  | 2025-04-30 12:51:27 FLE Daylight Time       |
+| System uptime    | 3 days, 12 hours, 7 minutes, 41 seconds      |
 | Physical cores   | 4                                           |
 | Logical cores    | 8                                           |
 | GPU(s)           | AMD RadeonT RX 640, AMD Radeon(TM) Graphics |

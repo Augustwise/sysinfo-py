@@ -206,6 +206,56 @@ def get_os_install_datetime() -> _dt.datetime | None:
 def format_datetime_local(dt: _dt.datetime) -> str:
     return dt.astimezone().strftime("%Y-%m-%d %H:%M:%S %Z")
 
+def _get_uptime_seconds_windows() -> int | None:
+    try:
+        try:
+            get_ticks64 = ctypes.windll.kernel32.GetTickCount64
+            get_ticks64.restype = ctypes.c_ulonglong
+            ms = int(get_ticks64())
+        except Exception:
+            get_ticks = ctypes.windll.kernel32.GetTickCount
+            get_ticks.restype = ctypes.c_uint32
+            ms = int(get_ticks())
+        if ms >= 0:
+            return ms // 1000
+    except Exception:
+        return None
+    return None
+
+def _get_uptime_seconds_linux() -> int | None:
+    try:
+        with open("/proc/uptime", "r", encoding="utf-8") as f:
+            first_field = f.read().split()[0]
+            sec = float(first_field)
+            if sec >= 0:
+                return int(sec)
+    except Exception:
+        return None
+    return None
+
+def get_system_uptime_seconds() -> int | None:
+    system = platform.system()
+    if system == "Windows":
+        return _get_uptime_seconds_windows()
+    if system == "Linux":
+        return _get_uptime_seconds_linux()
+    try:
+        import psutil, time as _time
+        boot_time = int(psutil.boot_time())
+        now = int(_time.time())
+        if now >= boot_time:
+            return now - boot_time
+    except Exception:
+        return None
+    return None
+
+def format_duration_dhms(total_seconds: int) -> str:
+    seconds = max(0, int(total_seconds))
+    days, rem = divmod(seconds, 86400)
+    hours, rem = divmod(rem, 3600)
+    minutes, secs = divmod(rem, 60)
+    return f"{days} days, {hours} hours, {minutes} minutes, {secs} seconds"
+
 def _get_total_ram_bytes_windows() -> int:
     class MEMORYSTATUSEX(ctypes.Structure):
         _fields_ = [
@@ -574,6 +624,7 @@ def main() -> None:
     
     os_name = get_os_name()
     install_dt = get_os_install_datetime()
+    uptime_seconds = get_system_uptime_seconds()
     physical_cores = get_physical_cpu_count()
     logical_cores = get_logical_cpu_count()
     total_ram_bytes = get_total_ram_bytes()
@@ -583,9 +634,13 @@ def main() -> None:
     install_display = (
         format_datetime_local(install_dt) if install_dt is not None else "Unknown"
     )
+    uptime_display = (
+        format_duration_dhms(uptime_seconds) if isinstance(uptime_seconds, int) else "Unknown"
+    )
     rows: list[tuple[str, str]] = [
         ("Operating system", os_name),
         ("OS install date", install_display),
+        ("System uptime", uptime_display),
         ("Physical cores", str(physical_cores)),
         ("Logical cores", str(logical_cores)),
         ("GPU(s)", gpu_display),
